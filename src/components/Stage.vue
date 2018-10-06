@@ -1,6 +1,6 @@
 <template>
   <div v-if="title === ''">
-    Loading ... 
+    Loading ...
   </div>
   <div v-else>
     <div id="description">
@@ -92,7 +92,7 @@ export default {
         var code = this.code[index]
         var split = code.split(/_____/)
         for (var lineIndex in split) {
-          html += split[lineIndex].split(/    /).join('&nbsp;&nbsp;&nbsp;&nbsp;')
+          html += split[lineIndex].split('    ').join('&nbsp;&nbsp;&nbsp;&nbsp;')
           if ((split.length - 1) > lineIndex) {
             html += `<input name="${this.fields[fieldIndex]}" style="text-align: center;border: none;border-bottom: 1px solid #9e9e9e;"/>`
             fieldIndex++

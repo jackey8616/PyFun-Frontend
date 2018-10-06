@@ -8,9 +8,12 @@
       <div class="navbar-nav">
         <router-link to="/" class="nav-item nav-link">Index</router-link>
         <li class="nav-item dropdown" v-for="(value, key) in stages" :key="key">
-          <a class="nav-link dropdown-toggle" href="#" id="dropdownAbout" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Stage {{ key }}</a>
-          <div class="dropdown-menu" aria-labelledby="dropdownAbout">
-              <router-link v-for="name in value" :key="name" :to="'/stage/' + key + '/' + convertURL(name)" class="dropdown-item">{{ name }}</router-link>
+          <a @click="fetchLesson(key)" class="nav-link dropdown-toggle" href="#" id="dropdownAbout" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Stage {{ key }}</a>
+          <div v-if="stages[key].lessons === undefined" class="dropdown-menu" aria-labelledby="dropdownAbout">
+            <a class="dropdown-item">Loading...</a>
+          </div>
+          <div v-else class="dropdown-menu" aria-labelledby="dropdownAbout">
+            <router-link v-for="lesson in stages[key].lessons" :key="lesson.index" :to="lesson.url" class="dropdown-item">{{ lesson.title }}</router-link>
           </div>
         </li>
         <router-link to="/about" class="nav-item nav-link">About</router-link>
@@ -48,8 +51,18 @@ export default {
         console.log(error)
       })
     },
-    convertURL: function (name) {
-      return name.replace(/ /g, '_')
+    fetchLesson: function (stageName) {
+      this.$ajax({
+        'method': 'GET',
+        'url': this.$backend + '/stage/' + stageName
+      }).then(response => {
+        var data = response.data.data
+        this.$set(this.stages[stageName], 'lessons', Object.values(data).sort((a, b) => {
+          return parseInt(a.index) - parseInt(b.index)
+        }))
+      }).catch(error => {
+        console.log(error)
+      })
     }
   }
 }
