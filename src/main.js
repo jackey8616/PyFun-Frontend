@@ -6,6 +6,7 @@ import router from './router'
 import Axios from 'axios'
 
 import Navigator from '@/components/Navigator'
+import Foot from '@/components/Foot'
 
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -16,6 +17,7 @@ Vue.prototype.$backend = 'https://pyfun-backend.herokuapp.com'
 Vue.prototype.$ajax = Axios
 
 Vue.component('navigator', Navigator)
+Vue.component('foot', Foot)
 
 /* eslint-disable no-new */
 new Vue({

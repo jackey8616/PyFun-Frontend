@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light">
+  <nav id="navigator" class="navbar navbar-expand-lg navbar-light">
     <a class="navbar-brand" href="#">PyFun</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbatNav" aria-expanded="false" aria-label="Toggle navgaton">
       <span class="navbar-toggler-icon"></span>
@@ -7,6 +7,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <div class="navbar-nav">
         <router-link to="/" class="nav-item nav-link">Index</router-link>
+        <a v-if="stages === null" class="nav-item nav-link">Stage Loading</a>
         <li class="nav-item dropdown" v-for="(value, key) in stages" :key="key">
           <a @click="fetchLesson(key)" class="nav-link dropdown-toggle" href="#" id="dropdownAbout" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Stage {{ key }}</a>
           <div v-if="stages[key].lessons === undefined" class="dropdown-menu" aria-labelledby="dropdownAbout">
@@ -27,7 +28,7 @@ export default {
   name: 'navigator',
   data: function () {
     return {
-      stages: {}
+      stages: null
     }
   },
   watch: {
@@ -69,7 +70,9 @@ export default {
 </script>
 
 <style scoped>
-  nav {
+  #navigator {
     background-color: #fa561e;
+    box-sizing: border-box;
+    position: relative;
   }
 </style>

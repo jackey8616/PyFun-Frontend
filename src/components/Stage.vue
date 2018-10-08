@@ -2,7 +2,7 @@
   <div v-if="title === ''">
     Loading ...
   </div>
-  <div v-else>
+  <div v-else id="stage">
     <div id="description">
       <h1>{{ title }}</h1>
       <div id="image" v-if="image !== null">
@@ -131,6 +131,9 @@ export default {
 </script>
 
 <style scoped>
+  #stage {
+    height: 100%;
+  }
   div {
     text-align: left;
   }
