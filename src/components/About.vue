@@ -11,7 +11,7 @@
       <li>Frontend: <a href="https://vuejs.org/">Vue</a> with <a href="https://github.com/vuejs/vue-cli">Vue-cli</a></li>
       <li>Backend: <a href="https://github.com/huge-success/sanic">Sanic</a></li>
       <li>Hoster: Linode by <a href="https://github.com/stavhaygn">@stavhaygn</a></li>
-      <li>Maintainer: <a href="https://github.com/yunosc">YunOSC</a></li>
+      <li>Maintainer: <a href="https://github.com/yunosc">YunOSC</a> <a href="https://github.com/jackey8616">@clo5de</a></li>
     </ul>
     <p>
         If you would like to contribute with platform itself.<br>
