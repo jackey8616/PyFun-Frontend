@@ -1,21 +1,21 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Index from '@/components/Index'
-import Stage from '@/components/Stage'
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
+  base: process.env.BASE_URL,
   routes: [
     {
       path: '/',
       name: 'Index',
-      component: Index
+      component: () => import('./components/Index.vue')
     },
     {
       path: '/stage/:level_name/:stage_name',
       name: 'Stage',
-      component: Stage
+      component: () => import('./components/Stage.vue')
     }
   ]
 })
