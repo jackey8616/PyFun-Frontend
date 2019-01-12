@@ -17,7 +17,6 @@
             <router-link v-for="lesson in stages[key].lessons" :key="lesson.index" :to="lesson.url" class="dropdown-item">{{ lesson.title }}</router-link>
           </div>
         </li>
-        <router-link to="/about" class="nav-item nav-link">About</router-link>
       </div>
     </div>
   </nav>
