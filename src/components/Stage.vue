@@ -5,6 +5,12 @@
   <div v-else id="stage">
     <div id="description">
       <h1>{{ title }}</h1>
+      <h6 style="display: inline;" :title="'Author ' + author.name">
+        <i class="fas fa-pen-nib"></i>&nbsp;
+        <a v-if="author.url !== ''" :href="author.url" target="_blank">{{ author.name }}</a>
+        <a v-else>{{ author.name }}</a>
+      </h6>
+      <hr>
       <div id="image" v-if="image !== null">
         <img :src="image"/>
       </div>
@@ -22,7 +28,11 @@
       </form>
     </div>
     <div id="data" v-if="data !== null">
-      <div style="padding-left: 15px;"><h3>Result: {{ data.result }}</h3></div>
+      <div style="padding-left: 15px;">
+        <h3>Result: </h3>
+        <h5 v-if="data.result" style="color: GREEN;"><i class="fas fa-check-circle"></i> AC</h5>
+        <h5 v-else style="color: RED;"><i class="fas fa-times-circle"></i> WA</h5>
+      </div>
       <div class="col">
         <h3>Stdout:</h3>
         <textarea v-model="data.stdout" cols=50 rows=15></textarea>
@@ -43,6 +53,10 @@ export default {
       levelName: '',
       stageName: '',
       title: '',
+      author: {
+        name: '',
+        url: ''
+      },
       image: null,
       description: [],
       fields: [],
@@ -61,11 +75,30 @@ export default {
     }
   },
   methods: {
+    getAuthor: function (name) {
+      this.author = {
+        name: '',
+        url: ''
+      }
+      this.author['name'] = name;
+      if (name === 'Official' || name === 'official') {
+        this.author['url'] = "https://github.com/YunOSC"
+      } else {
+        this.$ajax({
+          method: 'GET',
+          url: 'https://api.github.com/users/' + name
+        }).then(response => {
+          this.author['url'] = response.data.html_url
+        }).catch(() => {
+        })
+      }
+    },
     getStage: function () {
       this.image = null
       this.data = null
       this.levelName = this.$route.params.level_name
       this.stageName = this.$route.params.stage_name
+      this.title = ''
       this.$ajax({
         method: 'GET',
         url: this.$backend + '/stage/' + this.levelName + '/' + this.stageName
@@ -74,6 +107,7 @@ export default {
           console.log(response.data.error)
         } else {
           this.title = response.data.data.title
+          this.getAuthor(response.data.data.author)
           if (response.data.data.image !== undefined) {
             this.image = response.data.data.image
           }
