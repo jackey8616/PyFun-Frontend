@@ -96,7 +96,7 @@ export default {
     },
     getStage: function () {
       this.image = null
-      this.data = null
+      this.result = null
       this.levelName = this.$route.params.level_name
       this.stageName = this.$route.params.stage_name
       this.title = ''
@@ -138,7 +138,7 @@ export default {
       return html
     },
     submit: function (event) {
-      this.data = null
+      this.result = null
       var elements = event.target.elements
       var postData = {}
       for (var key in this.fields) {

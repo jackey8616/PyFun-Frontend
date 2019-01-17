@@ -1,6 +1,6 @@
 <template>
   <nav id="navigator" class="navbar navbar-expand-lg navbar-light">
-    <a class="navbar-brand" href="#">PyFun</a>
+    <a class="navbar-brand" href="/">PyFun</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbatNav" aria-expanded="false" aria-label="Toggle navgaton">
       <span class="navbar-toggler-icon"></span>
     </button>
