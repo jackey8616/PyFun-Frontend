@@ -7,7 +7,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <div class="navbar-nav">
         <router-link to="/" class="nav-item nav-link">Index</router-link>
-        <a v-if="stages === null" class="nav-item nav-link">Stage Loading</a>
+        <a v-if="stages === {}" class="nav-item nav-link">Stage Loading</a>
         <li class="nav-item dropdown" v-for="(value, key) in stages" :key="key">
           <a @click="fetchLesson(key)" class="nav-link dropdown-toggle" href="#" id="dropdownAbout" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Stage {{ key }}</a>
           <div v-if="stages[key].lessons === undefined" class="dropdown-menu" aria-labelledby="dropdownAbout">
@@ -27,7 +27,7 @@ export default {
   name: 'navigator',
   data: function () {
     return {
-      stages: null
+      stages: {}
     }
   },
   watch: {
