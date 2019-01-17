@@ -27,19 +27,20 @@
         </div>
       </form>
     </div>
-    <div id="data" v-if="data !== null">
+    <hr>
+    <div id="result" v-if="result !== null">
       <div style="padding-left: 15px;">
         <h3>Result: </h3>
-        <h5 v-if="data.result" style="color: GREEN;"><i class="fas fa-check-circle"></i> AC</h5>
+        <h5 v-if="result.result" style="color: GREEN;"><i class="fas fa-check-circle"></i> AC</h5>
         <h5 v-else style="color: RED;"><i class="fas fa-times-circle"></i> WA</h5>
       </div>
       <div class="col">
         <h3>Stdout:</h3>
-        <textarea v-model="data.stdout" cols=50 rows=15></textarea>
+        <textarea v-model="result.stdout" cols=50 rows=15></textarea>
       </div>
       <div class="col">
         <h3>Stderr:</h3>
-        <textarea v-model="data.stderr" cols=50 rows=15></textarea>
+        <textarea v-model="result.stderr" cols=50 rows=15></textarea>
       </div>
     </div>
   </div>
@@ -60,7 +61,7 @@ export default {
       image: null,
       description: [],
       fields: [],
-      data: null,
+      result: null,
       code: null
     }
   },
@@ -152,13 +153,27 @@ export default {
         data: postData
       }).then(response => {
         if (response.data.success !== undefined && response.data.success === true) {
-          this.data = response.data.data
+          var responseData = response.data.data
+          this.result = {
+            result: responseData.result,
+            stdout: this.stdConcat(responseData.stdout),
+            stderr: this.stdConcat(responseData.stderr)
+          }
         } else {
         }
         console.log(response)
       }).catch(error => {
         console.log(error)
       })
+    },
+    stdConcat: function (array) {
+      if (array === undefined)
+        return []
+
+      var msg = ''
+      for(var index in array)
+        msg += array[index]
+      return msg
     }
   }
 }
