@@ -1,6 +1,6 @@
 <template>
   <div id="footer">
-    &copy; 2017-2018 YunOSC
+    &copy; 2017-2020 clo5de(jackey8616)
   </div>
 </template>
 

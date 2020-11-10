@@ -83,11 +83,11 @@ export default {
       }
       this.author['name'] = name;
       if (name === 'Official' || name === 'official') {
-        this.author['url'] = "https://github.com/YunOSC"
+        this.author['url'] = "https://github.com/jackey8616"
       } else {
         this.$ajax({
           method: 'GET',
-          url: 'https://api.github.com/users/' + name
+          url: `https://api.github.com/users/${name}`
         }).then(response => {
           this.author['url'] = response.data.html_url
         }).catch(() => {
@@ -102,7 +102,7 @@ export default {
       this.title = ''
       this.$ajax({
         method: 'GET',
-        url: this.$backend + '/stage/' + this.levelName + '/' + this.stageName
+        url: `${this.$backend}/stage/${this.levelName}/${this.stageName}`
       }).then(response => {
         if (response.data.error !== undefined) {
           console.log(response.data.error)
@@ -146,7 +146,7 @@ export default {
       }
       this.$ajax({
         method: 'POST',
-        url: this.$backend + '/stage/' + this.levelName + '/' + this.stageName,
+        url: `${this.$backend}/stage/${this.levelName}/${this.stageName}`,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
