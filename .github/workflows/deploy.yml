@@ -1,8 +1,9 @@
-name: GH Deploy
+name: Deploy
 
 on:
   push:
-    branches: [ master ]
+    branches: 
+      - master # default branch
 
 jobs:
   build:
@@ -19,9 +20,8 @@ jobs:
         with:
           cmd: build
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@3.7.1
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: dist
-          CLEAN: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: gh-pages
