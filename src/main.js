@@ -13,8 +13,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 
 Vue.config.productionTip = false
 // Vue.prototype.$backend = 'http://127.0.0.1:8000'
-// TODO: need to use https
-Vue.prototype.$backend = 'http://pyfun-backend.clo5de.info:8090'
+Vue.prototype.$backend = 'https://pyfun-backend.clo5de.info'
 Vue.prototype.$ajax = Axios
 
 Vue.component('navigator', Navigator)
