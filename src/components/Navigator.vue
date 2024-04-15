@@ -13,7 +13,7 @@
           <a class="nav-link dropdown-toggle" id="stageDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Stage</a>
           <ul class="dropdown-menu" aria-labelledby="stageDropdown">
             <li v-for="(value, key) in stages" :key="key" class="dropdown-submenu">
-              <a @mouseover="fetchLesson(key)" class="dropdown-item dropdown-toggle">{{ key }}</a>
+              <a @mouseover="fetchLessonV2(key)" class="dropdown-item dropdown-toggle">{{ key }}</a>
               <ul class="dropdown-menu">
                 <li v-if="stages[key].lessons === undefined"><a class="dropdown-item disable">Lesson Loading...</a></li>
                 <li v-else v-for="lesson in stages[key].lessons" :key="lesson.index">
@@ -29,6 +29,8 @@
 </template>
 
 <script>
+import { Base64 } from 'js-base64';
+
 export default {
   name: 'navigator',
   data: function () {
@@ -39,12 +41,12 @@ export default {
   watch: {
     $route (to, from) {
       if (to.name === 'Index') {
-        this.fetchList()
+        this.fetchListV2()
       }
     }
   },
   mounted: function () {
-    this.fetchList()
+    this.fetchListV2()
   },
   methods: {
     fetchList: function () {
@@ -53,6 +55,16 @@ export default {
         'url': this.$backend + '/stage'
       }).then(response => {
         this.stages = response.data.data
+      }).catch(error => {
+        console.log(error)
+      })
+    },
+    fetchListV2: function () {
+      this.$ajax({
+        'method': 'GET',
+        'url': this.$v2Backend + '/stage'
+      }).then(response => {
+        this.stages = JSON.parse(Base64.decode(response.data))['data']
       }).catch(error => {
         console.log(error)
       })
@@ -71,7 +83,22 @@ export default {
           console.log(error)
         })
       }
-    }
+    },
+    fetchLessonV2: function (stageName) {
+      if (this.stages[stageName].lessons === undefined) {
+        this.$ajax({
+          'method': 'GET',
+          'url': this.$v2Backend + '/stage/' + stageName
+        }).then(response => {
+          var { data } = JSON.parse(Base64.decode(response.data))
+          this.$set(this.stages[stageName], 'lessons', Object.values(data).sort((a, b) => {
+            return parseInt(a.index) - parseInt(b.index)
+          }))
+        }).catch(error => {
+          console.log(error)
+        })
+      }
+    },
   }
 }
 </script>

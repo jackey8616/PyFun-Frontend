@@ -18,7 +18,7 @@
       <p v-for="des in description" :key="des">{{ des }}</p>
     </div>
     <div id="field">
-      <form @submit.prevent="submit">
+      <form @submit.prevent="submitV2">
         <div class="form-group">
           <code v-html="processCode()"></code>
         </div>
@@ -47,6 +47,8 @@
 </template>
 
 <script>
+import { Base64 } from 'js-base64'
+
 export default {
   name: 'stage',
   data: function () {
@@ -66,12 +68,12 @@ export default {
     }
   },
   mounted: function () {
-    this.getStage()
+    this.getStageV2()
   },
   watch: {
     $route (to, from) {
       if (to.name === 'Stage') {
-        this.getStage()
+        this.getStageV2()
       }
     }
   },
@@ -120,6 +122,34 @@ export default {
         console.log(error)
       })
     },
+    getStageV2: function () {
+      this.image = null
+      this.result = null
+      this.levelName = this.$route.params.level_name
+      this.stageName = this.$route.params.stage_name
+      this.title = ''
+      this.$ajax({
+        method: 'GET',
+        url: `${this.$v2Backend}/stage/${this.levelName}/${this.stageName}`
+      }).then(response => {
+        const data = JSON.parse(Base64.decode(response.data));
+        if (data.error !== undefined) {
+          console.log(data.error)
+        } else {
+          console.log(data.data);
+          this.title = data.data.title
+          this.getAuthor(data.data.author)
+          if (data.data.image !== undefined) {
+            this.image = data.data.image
+          }
+          this.description = data.data.description
+          this.code = data.data.code
+          this.fields = data.data.fields
+        }
+      }).catch(error => {
+        console.log(error)
+      })
+    },
     processCode: function () {
       var html = ''
       var fieldIndex = 0
@@ -154,6 +184,33 @@ export default {
       }).then(response => {
         if (response.data.success !== undefined && response.data.success === true) {
           var responseData = response.data.data
+          this.result = {
+            result: responseData.result,
+            stdout: this.stdConcat(responseData.stdout),
+            stderr: this.stdConcat(responseData.stderr)
+          }
+        } else {
+        }
+        console.log(response)
+      }).catch(error => {
+        console.log(error)
+      })
+    },
+    submitV2: function (event) {
+      this.result = null
+      var elements = event.target.elements
+      var postData = {}
+      for (var key in this.fields) {
+        postData[this.fields[key]] = elements[this.fields[key]].value
+      }
+      this.$ajax({
+        method: 'POST',
+        url: `${this.$v2Backend}/stage/${this.levelName}/${this.stageName}`,
+        data: { answer: postData }
+      }).then(response => {
+        const data = JSON.parse(Base64.decode(response.data));
+        if (data.success !== undefined && data.success === true) {
+          var responseData = data.data
           this.result = {
             result: responseData.result,
             stdout: this.stdConcat(responseData.stdout),

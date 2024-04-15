@@ -32,6 +32,8 @@
     <hr>
     <h4><i class="fas fa-clipboard-list"></i> Change Log</h4>
     <dl>
+      <dt>Apr 15, 2024</dt>
+      <dd>Migrate to AWS Lambda in order to reduce dedicated server cost on Linode.</dd>
       <dt>Nov 11, 2020</dt>
       <dd>Change repository owner from YunOSC to <a href="https://github.com/jackey8616">@clo5de</a>.</dd>
       <dt>Jan 13, 2019</dt>
